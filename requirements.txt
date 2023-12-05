@@ -1,0 +1,10 @@
+flask
+flask_healthz
+flask-sqlalchemy
+gitpython
+gunicorn
+httplib2
+logbook
+marshmallow
+nose
+pyopenssl

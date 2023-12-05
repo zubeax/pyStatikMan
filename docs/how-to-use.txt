@@ -1,0 +1,91 @@
+### initialize the database
+
+python ./run.py -i
+Creating database...
+Created database.
+
+### submit a CREATE rest request
+
+curl -s -X POST -H "Content-Type: application/json" \
+    -d '{   "author": "Axel", \
+            "email": "axel@kippel.de", \
+            "originip": "127.0.0.11", \
+            "origindomain": "kippel.de", \
+            "commenttext": "Hello world!" }' http://192.168.100.243:5000/api/v1.0/comments/
+
+{
+  "data": {
+    "comments": {
+      "author": "Axel",
+      "commenttext": "Hello world!",
+      "email": "axel@kippel.de",
+      "id": "2",
+      "origindomain": "kippel.de",
+      "originip": "127.0.0.11"
+    }
+  },
+  "status": "success"
+}
+
+
+### submit a GET rest request for a single comment
+
+$ curl -s -X GET -H 'Accepts: application/json' http://192.168.100.243:5000/api/v1.0/comments/1
+{
+  "data": {
+    "comment": {
+      "author": "Axel",
+      "commenttext": "Hello world!",
+      "email": "axel@kippel.de",
+      "id": "1",
+      "origindomain": "kippel.de",
+      "originip": "127.0.0.11"
+    }
+  },
+  "status": "success"
+}
+
+
+### submit a GET rest request for all comments
+
+$ curl -s -X GET -H 'Accepts: application/json' http://192.168.100.243:5000/api/v1.0/comments/
+{
+  "data": {
+    "comments": [
+      {
+        "author": "Axel",
+        "commenttext": "Hello world!",
+        "email": "axel@kippel.de",
+        "id": "1",
+        "origindomain": "kippel.de",
+        "originip": "127.0.0.11"
+      },
+      {
+        "author": "Henri",
+        "commenttext": "Hello Papa!",
+        "email": "henri@kippel.de",
+        "id": "2",
+        "origindomain": "kippel.de",
+        "originip": "127.0.0.11"
+      }
+    ]
+  },
+  "status": "success"
+}
+
+### submit a DELETE rest request
+
+$ curl -s -X DELETE  http://192.168.100.243:5000/api/v1.0/comments/2
+{
+  "data": {
+    "comment": {
+      "author": "Axel",
+      "commenttext": "Hello world!",
+      "email": "axel@kippel.de",
+      "id": "2",
+      "origindomain": "kippel.de",
+      "originip": "127.0.0.11"
+    }
+  },
+  "status": "success"
+}

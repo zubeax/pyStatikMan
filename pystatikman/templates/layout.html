@@ -1,0 +1,22 @@
+<!doctype html>
+<html>
+  <head>
+    {% block head %}
+    <title>{% block title %}{% endblock %} - API Hello</title>
+    {% endblock %}
+  </head>
+  <body>
+    <div class="container" id="content">
+
+        {% block content %}{% endblock %}
+
+        <div class="text-center" id="text-center">
+          {% block footer %}
+          &copy; Copyright 2023-2023 by <a href="https://zubeax.github.io/">Axel Zuber</a>.
+          {% endblock %}
+        </div>
+
+    </div>
+
+  </body>
+</html>
