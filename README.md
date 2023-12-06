@@ -10,11 +10,22 @@ Like Staticman, the application exposes a simple REST API that accepts POST requ
 extracts the payload and then commits a comment file to the configured github repository.
 
 
+
 ## Installation
 
-Clone this repository and edit the file
+Clone this repository and install the required packages into a .venv environment :
+
+```bash
+python3 -m venv <venv-directory>
+. <venv-directory>/activate
+pip3 install -r requirements.txt
+```
+
+Edit the file
 
     ./pystatikman/config/defaultconfig.py
+
+
 | Variable                | Value                                             | Description            |
 |-------------------------|---------------------------------------------------|------------------------|
 | GITHUB_PAGES_URL        | "https://zubeax.github.io"                                   |             |
