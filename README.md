@@ -90,3 +90,37 @@ then start the server with
 cd pyStatikMan
 gunicorn --bind=0.0.0.0 --timeout 600 --log-level debug pystatikman:app
 ```
+
+
+## Starting as systemd service
+
+Define a service control file
+
+```bash
+cat > /etc/systemd/system/pystatikman.service << EOT
+[Unit]
+Description=pyStatikMan
+After=network.target
+
+[Service]
+Environment=FLASK_CONFIG=production
+User=root
+ExecStart=gunicorn --bind=0.0.0.0:5000 --timeout=600 --log-level=debug --ssl-version=TLSv1_2  --keyfile=./tls/blog-nopass.key --certfile=./tls/blog-server-cert.crt pystatikman:app
+WorkingDirectory=/opt/pyStatikMan/
+Restart=on-failure
+RestartSec=30
+StartLimitIntervalSec=0
+
+[Install]
+WantedBy=multi-user.target
+EOT
+```
+
+then enable and start the service :
+
+```bash
+systemctl reload-daemon
+systemctl enable pystatikman
+systemctl start pystatikman
+```
+ 
