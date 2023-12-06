@@ -6,27 +6,12 @@ Created database.
 
 ### submit a CREATE rest request
 
-curl -s -X POST -H "Content-Type: application/json" \
-    -d '{   "author": "Axel", \
-            "email": "axel@kippel.de", \
-            "originip": "127.0.0.11", \
-            "origindomain": "kippel.de", \
-            "commenttext": "Hello world!" }' http://192.168.100.243:5000/api/v1.0/comments/
-
-{
-  "data": {
-    "comments": {
-      "author": "Axel",
-      "commenttext": "Hello world!",
-      "email": "axel@kippel.de",
-      "id": "2",
-      "origindomain": "kippel.de",
-      "originip": "127.0.0.11"
-    }
-  },
-  "status": "success"
-}
-
+curl -v --cacert ./tls/blog-cacert.crt -X POST -H "Content-Type: application/json" -H "origin: from-home" \
+       -d '{    "slug": "the-journey-starts", \
+                "author": "Ghostdog", \
+                "email": "ghostdog@roof.top", \
+                "commenttext": "From curl!" }' \
+    https://kippel.myddns.me:5000/api/v1.0/comments/
 
 ### submit a GET rest request for a single comment
 

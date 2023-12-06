@@ -36,5 +36,6 @@ def crossdomain(func, allow_origin=None, allow_headers=None, max_age=None):
             headers.update(cors_headers)
             return response[0], response[1], headers
         else:
-            return response, 200, cors_headers
+            return response, response.status, cors_headers
+
     return wrapper

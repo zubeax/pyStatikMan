@@ -7,7 +7,7 @@ import os
 os.environ['PYSTATIKMANCONFIG'] = 'UnitTesting'  # Use UnitTesting environment.
 
 from pystatikman import app, db
-from pystatikman.modules import statuscodes
+from pystatikman.api import statuscodes
 
 
 class LoadingTestCase(unittest.TestCase):

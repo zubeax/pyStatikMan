@@ -1,8 +1,5 @@
 __author__ = 'Axel Zuber'
 
-""" Responses that try to follow the JSend specification. """
-
-
 def create_single_object_response(status, object, object_naming_singular):
     """
     Create a response for one returned object

@@ -1,6 +1,5 @@
 __author__ = 'Axel Zuber'
 
-
 class DefaultConfig(object):
     """
     Default Config (Is used when PYSTATIKMANCONFIG environment variable is not set)
@@ -10,6 +9,15 @@ class DefaultConfig(object):
     LOG_LEVEL = 'WARNING'
     LOG_DIR = 'logs/'
     SQLALCHEMY_DATABASE_URI = "sqlite:///comment.db"
+    GITHUB_PAGES_URL = "https://zubeax.github.io"
+    GITHUB_ACCOUNT = "zubeax"
+    GITHUB_BOT_ACCOUNT = "zubeax-bot"
+    GITHUB_BOT_TOKENFILE  = "./token"
+    GITHUB_REPO_REMOTE = "https://{username}:{token}@github.com/{account}/{pagesrepo}"
+    GITHUB_REPO_LOCAL = "./repo"
+    GITHUB_COMMENT_DIRECTORY  = "_data/comments"    # this is appended to GITHUB_REPO_LOCAL
+
+    POST_MAX_SIZE  = 2048                           # let's start with 2k
 
 
 class Development(DefaultConfig):

@@ -1,15 +1,20 @@
 __author__ = 'Axel Zuber'
 
 import math
-from flask import Blueprint, jsonify, request
-from pystatikman.utils.decorators import crossdomain
-from pystatikman.modules import responses, errors, statuscodes
-from pystatikman.modules.comments.models import Comment, db, CommentSchema
+from flask import Blueprint, jsonify, request, redirect
 from sqlalchemy.exc import IntegrityError
+
+from pystatikman import app, log, log_to_file
+from pystatikman.api import responses, errors, statuscodes
+from pystatikman.api.comments.models import Comment, db, CommentSchema
+from pystatikman.api.comments.decorators import require_origin, sanitize_request
+from pystatikman.gitclient.uploader import commit_comment_to_repo
+from pystatikman.utils.decorators import crossdomain
 
 mod = Blueprint('comments', __name__, url_prefix='/api/v<float:version>/comments')
 
 @mod.route('/<int:comment_id>', methods=['GET'])
+@require_origin
 @crossdomain
 def get_comment(version, comment_id):
     """
@@ -38,6 +43,7 @@ def get_comment(version, comment_id):
 
 
 @mod.route('/<int:comment_id>', methods=['DELETE'])
+@require_origin
 @crossdomain
 def delete_comment(version, comment_id):
     """
@@ -73,6 +79,7 @@ def delete_comment(version, comment_id):
 
 
 @mod.route('/', methods=['GET'])
+@require_origin
 @crossdomain
 def get_all_comments(version):
     """
@@ -103,23 +110,27 @@ def get_all_comments(version):
 
 
 @mod.route('/', methods=['POST', 'PUT'])
+@require_origin
+@sanitize_request
 @crossdomain
 def insert_comment(version):
     """
     Controller for API Function that inserts new comments in the database
+    and commits to remote repository
+
     @return: Response and HTTP code
     """
 
-    headers = request.headers
+#    headers = request.headers
+#    environ = request.environ
+#    remote_addr = request.remote_addr
     origin = request.origin
-    method = request.method
-    remote_addr = request.remote_addr
     mimetype = request.mimetype
-    environ = request.environ
 
-    if mimetype.casefold() == "application/json":
+    if mimetype == None:
+        return redirect(origin, code=statuscodes.HTTP_REDIRECT)
+    elif mimetype.casefold() == "application/json":
         content = request.get_json(silent=True)
-        # GET POST DATA
         try:
             slug = content['slug']
             parent = None
@@ -127,13 +138,15 @@ def insert_comment(version):
             email = content['email']
             origindomain = origin
             commenttext = content['commenttext']
+            blogredirectSuccess = app.config['GITHUB_PAGES_URL']+ "/comment-success.html"
+            blogredirectError = app.config['GITHUB_PAGES_URL']+ "/comment-error.html"
         except Exception as ex:
-            return jsonify(errors.error_request_incomplete(ex)), statuscodes.HTTP_NOT_ACCEPTABLE
+            return redirect(origin, code=statuscodes.HTTP_REDIRECT)
     elif mimetype.casefold() == "application/x-www-form-urlencoded":
         formdata = request.form
 
         if formdata == None:
-            return jsonify(errors.error_formdata_empty()), statuscodes.HTTP_NOT_ACCEPTABLE
+            return redirect(origin, code=statuscodes.HTTP_REDIRECT)
 
         try:
             slug = formdata['options[slug]']
@@ -142,10 +155,14 @@ def insert_comment(version):
             email = author
             origindomain = origin
             commenttext = formdata['fields[message]']
+            blogredirectSuccess = formdata['options[redirect]']
+            blogredirectError = formdata['options[redirectError]']
         except Exception as ex:
-            return jsonify(errors.error_request_incomplete(ex)), statuscodes.HTTP_NOT_ACCEPTABLE
+            return redirect(origin, code=statuscodes.HTTP_REDIRECT)
+    else:
+        return redirect(origin, code=statuscodes.HTTP_REDIRECT)
 
-    # API Version 1.X
+# API Version 1.X
     if math.floor(version) == 1:
 
         comment = Comment(slug, parent, author, email, origindomain, commenttext)
@@ -154,17 +171,22 @@ def insert_comment(version):
         try:
             db.session.commit()
         except IntegrityError as ex:
-            return jsonify(errors.error_commit_error(ex)), statuscodes.HTTP_INTERNAL_ERROR
+            return redirect(blogredirectError, code=statuscodes.HTTP_REDIRECT)
+
+        try:
+            commit_comment_to_repo(comment)
+        except Exception as ex:
+            return redirect(blogredirectError, code=statuscodes.HTTP_REDIRECT)
 
         commentschema = CommentSchema();
         serializedcomment = commentschema.dump(comment)
+        serializedcomment = str(serializedcomment)
 
-        return jsonify(
-            responses.create_multiple_object_response('success',
-                                                      serializedcomment,
-                                                      'comments')
-            ), statuscodes.HTTP_OK
+        with log_to_file:
+            log.info("Successfully processed comment: " + serializedcomment)
+
+        return redirect(blogredirectSuccess, code=statuscodes.HTTP_REDIRECT)
 
     # Unsupported Versions
     else:
-        return jsonify(errors.error_incorrect_version(version)), statuscodes.HTTP_VERSION_UNSUPPORTED
+        return redirect(blogredirectError, code=statuscodes.HTTP_REDIRECT)

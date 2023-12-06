@@ -1,8 +1,7 @@
 __author__ = 'Axel Zuber'
 
-from pystatikman.modules.base import BaseModel, db
+from pystatikman.api.base import BaseModel, db
 from marshmallow import Schema, fields
-
 
 class Comment(BaseModel):
     """
@@ -10,7 +9,7 @@ class Comment(BaseModel):
     """
     id = db.Column(db.Integer, primary_key=True)
     slug = db.Column(db.String(200), unique=False)
-    parent = db.Column(db.String(200), unique=False)
+    parent = db.Column(db.String(200), unique=False, index=True)
     author = db.Column(db.String(120), unique=False)
     email = db.Column(db.String(120), unique=False)
     origindomain = db.Column(db.String(200), unique=False)

@@ -3,10 +3,12 @@ __version__ = 1.0
 version = __version__
 
 import os
-from flask import Flask, render_template
+from flask import Flask, render_template, redirect
 # from flask.ext.sqlalchemy import SQLAlchemy
 from flask_sqlalchemy import SQLAlchemy
 from logbook import Logger
+
+from pystatikman.api import statuscodes
 from pystatikman.config import definedconfigs
 from pystatikman.utils.logging import ProductionLoggingSetup
 
@@ -22,6 +24,12 @@ config_name = os.getenv('PYSTATIKMANCONFIG',
 API_CONFIG = definedconfigs[config_name]
 app.config.from_object(API_CONFIG)
 
+# Verify configuration consistency
+
+full_local_path = os.path.abspath(app.config['GITHUB_REPO_LOCAL'])
+if not os.path.isdir(full_local_path):
+    raise RuntimeError("repo directory $comment_local_path not found")
+
 # Setup SQLAlchemy
 db = SQLAlchemy(app)
 
@@ -31,10 +39,8 @@ log_setup = ProductionLoggingSetup(app.config['LOG_LEVEL'], app.config['LOG_DIR'
 log_to_file = log_setup.get_default_setup()
 
 ## Api routing
-
-from pystatikman.modules.comments import mod as comments_module
+from pystatikman.api.comments import mod as comments_module
 app.register_blueprint(comments_module)
-
 
 """
 General purpose routes
@@ -57,5 +63,18 @@ def api_latest_version():
     """
     return str(version)
 
-## EOF Routes.
+##
+#   for some reason the redirect from the controller response
+#   is concatenated with our domain.
+#   these 2 routes are a quick and dirty fix to force the
+#   redirect back to github pages.
+##
+@app.route('/zubeax.github.io/comment-success', methods=['GET'])
+def post_success():
+    return redirect('https://zubeax.github.io/comment-success', code=statuscodes.HTTP_REDIRECT)
 
+@app.route('/zubeax.github.io/comment-error', methods=['GET'])
+def post_error():
+    return redirect('https://zubeax.github.io/comment-error', code=statuscodes.HTTP_REDIRECT)
+
+## EOF Routes.
