@@ -12,21 +12,22 @@ extracts the payload and then commits a comment file to the configured github re
 
 ## Installation
 
-Clone this repository and edit the following file
+Clone this repository and edit the file
 
--   ./pystatikman/config/defaultconfig.py
-
-    GITHUB_PAGES_URL = "https://zubeax.github.io"
-    GITHUB_ACCOUNT = "zubeax"
-    GITHUB_BOT_ACCOUNT = "zubeax-bot"
-    GITHUB_BOT_TOKENFILE  = "./token"
-    GITHUB_REPO_REMOTE = "https://{username}:{token}@github.com/{account}/{pagesrepo}"
-    GITHUB_REPO_LOCAL = "./repo"
-    GITHUB_COMMENT_DIRECTORY  = "_data/comments"    # this is appended to GITHUB_REPO_LOCAL
+    ./pystatikman/config/defaultconfig.py
+| Variable                | Value                                             | Description            |
+|-------------------------|---------------------------------------------------|------------------------|
+| GITHUB_PAGES_URL        | "https://zubeax.github.io"                                   |             |
+| GITHUB_ACCOUNT          | "zubeax"                                                     |             |
+| GITHUB_BOT_ACCOUNT      | "zubeax-bot"                                                 |             |
+| GITHUB_BOT_TOKENFILE    | "./token"                                                    |             |
+| GITHUB_REPO_REMOTE      | "https://{username}:{token}@github.com/{account}/{pagesrepo}"|             |
+| GITHUB_REPO_LOCAL       | "./repo"                                                     |             |
+| GITHUB_COMMENT_DIRECTORY| "_data/comments"                                             |             |
 
 Change the repository url for your Github Pages repository, your personal account and the bot account used to commit
 comments. The bot account requires just another sign-up at Github. Once it has been provisioned, invite the bot account
-from your personal account for collaboration. Done.
+from your personal account for collaboration. Done.<br/>
 Using a bot account prevents any malfunction in pyStatikMan from messing with any of your other repos.
 
 Generate an access token for the bot account (Settings/Developer Settings/Personal Access Token/Tokens (classic)).
