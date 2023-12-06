@@ -20,10 +20,10 @@ Clone this repository and edit the file
 | GITHUB_PAGES_URL        | "https://zubeax.github.io"                                   |             |
 | GITHUB_ACCOUNT          | "zubeax"                                                     |             |
 | GITHUB_BOT_ACCOUNT      | "zubeax-bot"                                                 |             |
-| GITHUB_BOT_TOKENFILE    | "./token"                                                    |             |
-| GITHUB_REPO_REMOTE      | "https://{username}:{token}@github.com/{account}/{pagesrepo}"|             |
-| GITHUB_REPO_LOCAL       | "./repo"                                                     |             |
-| GITHUB_COMMENT_DIRECTORY| "_data/comments"                                             |             |
+| GITHUB_BOT_TOKENFILE    | "./token"                                                    |relative to project root|
+| GITHUB_REPO_REMOTE      | "https://{username}:{token}@github.com/{account}/{pagesrepo}"|don't change !|
+| GITHUB_REPO_LOCAL       | "./repo"                                                     |relative to project root |
+| GITHUB_COMMENT_DIRECTORY| "_data/comments"                                             |relative to GITHUB_REPO_LOCAL |
 
 Change the repository url for your Github Pages repository, your personal account and the bot account used to commit
 comments. The bot account requires just another sign-up at Github. Once it has been provisioned, invite the bot account
