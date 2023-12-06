@@ -1,7 +1,8 @@
 __author__ = 'Axel Zuber'
 
+import os, os.path
 from functools import wraps
-from flask import request, abort, Response
+from flask import request, abort
 
 from pystatikman import app
 from pystatikman import log, log_to_file
@@ -28,6 +29,7 @@ def require_origin(func, allow_localhost=None):
         origin = request.origin
         if origin != None:
             origin = origin.casefold()
+
         originexpected = app.config['GITHUB_PAGES_URL'].casefold()
         remote_addr = request.remote_addr
 
@@ -57,6 +59,7 @@ def sanitize_request(func):
     def wrapper(*args, **kwargs):
 
         maxblogsize = app.config['POST_MAX_SIZE']
+        maxcomments = app.config['POST_MAX_COMMENTS']
         mimetype = request.mimetype
 
         formdata = None
@@ -67,8 +70,26 @@ def sanitize_request(func):
         if formdata != None:
             try:
                 commenttext = formdata['fields[message]']
+                slug = formdata['options[slug]']
             except Exception as ex:
                 pass
+
+        # Prevent excessive numbers of comments
+
+        if slug != None:
+            comment_local_path = app.config['GITHUB_REPO_LOCAL']
+            comment_local_path = comment_local_path + "/" + app.config['GITHUB_COMMENT_DIRECTORY']
+            comment_local_path = comment_local_path + "/" + slug
+
+            if os.path.isdir(comment_local_path):
+                actual_comments = len([name for name in os.listdir(comment_local_path) if os.path.isfile(name)])
+                if actual_comments > maxcomments:
+                    with log_to_file:
+                        log.warning("Max number of comments exceeded: " + slug)
+                    abort(401)
+
+
+        # Prevent excessively large comments
 
         if commenttext != None:
             if len(commenttext) > maxblogsize:

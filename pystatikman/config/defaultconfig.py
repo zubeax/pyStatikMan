@@ -18,7 +18,7 @@ class DefaultConfig(object):
     GITHUB_COMMENT_DIRECTORY  = "_data/comments"    # this is appended to GITHUB_REPO_LOCAL
 
     POST_MAX_SIZE  = 2048                           # let's start with 2k
-
+    POST_MAX_COMMENTS  = 50                         # that's 100k. Should be enough
 
 class Development(DefaultConfig):
     """
