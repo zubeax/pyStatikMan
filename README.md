@@ -21,6 +21,21 @@ python3 -m venv <venv-directory>
 pip3 install -r requirements.txt
 ```
 
+The 'gitpython' package depends on a locally installed git client. Install that with your package manager.
+Unless you already did so, create a git config file :
+
+```bash
+$ cat > ~/.gitconfig << EOT
+[user]
+	name = <GITHUB_ACCOUNT>
+	email = <GITHUB EMAIL>
+[init]
+	defaultBranch = main
+[pull]
+	rebase = false
+EOT
+```
+
 Edit the file
 
     ./pystatikman/config/defaultconfig.py
