@@ -33,7 +33,7 @@ def require_origin(func, allow_localhost=None):
         originexpected = app.config['GITHUB_PAGES_URL'].casefold()
         remote_addr = request.remote_addr
 
-        if origin == 'from-home' and remote_addr == '84.166.222.154':
+        if origin == 'from-home' and (remote_addr == '84.166.222.154' or remote_addr == '192.168.100.243'):
             return func(*args, **kwargs)
 
         if origin == None and allow_localhost and remote_addr == '127.0.0.1':

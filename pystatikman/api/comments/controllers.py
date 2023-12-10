@@ -166,9 +166,9 @@ def insert_comment(version):
     if math.floor(version) == 1:
 
         comment = Comment(slug, parent, author, email, origindomain, commenttext)
-        db.session.add(comment)
 
         try:
+            db.session.add(comment)
             db.session.commit()
         except IntegrityError as ex:
             return redirect(blogredirectError, code=statuscodes.HTTP_REDIRECT)

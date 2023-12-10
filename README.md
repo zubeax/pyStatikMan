@@ -123,4 +123,3 @@ systemctl reload-daemon
 systemctl enable pystatikman
 systemctl start pystatikman
 ```
- 
