@@ -14,8 +14,8 @@ full_local_path = app.config['GITHUB_REPO_LOCAL']
 account         = app.config['GITHUB_ACCOUNT']
 username        = app.config['GITHUB_BOT_ACCOUNT']
 password        = token
-pagesurl        = app.config['GITHUB_PAGES_URL']
-pagesrepo       = re.sub(r'https?://', '', pagesurl)
+pagesrepo       = app.config['GITHUB_PAGES_REPO']
+
 remotepattern   = app.config['GITHUB_REPO_REMOTE']
 remoteurl       = remotepattern.format(username=username, token=token, account=account, pagesrepo=pagesrepo)
 

@@ -1,5 +1,7 @@
 __author__ = 'Axel Zuber'
 
+import re
+
 class DefaultConfig(object):
     """
     Default Config (Is used when PYSTATIKMANCONFIG environment variable is not set)
@@ -19,6 +21,8 @@ class DefaultConfig(object):
 
     POST_MAX_SIZE  = 2048                           # let's start with 2k
     POST_MAX_COMMENTS  = 50                         # that's 100k. Should be enough
+
+    GITHUB_PAGES_REPO = re.sub(r'https?://', '', GITHUB_PAGES_URL)
 
 class Development(DefaultConfig):
     """

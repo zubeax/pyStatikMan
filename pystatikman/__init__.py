@@ -1,9 +1,11 @@
 # coding=utf-8
 __version__ = 1.0
+
 version = __version__
 
 import os
-from flask import Flask, render_template, redirect
+import re
+from flask import Flask, render_template, redirect, request
 # from flask.ext.sqlalchemy import SQLAlchemy
 from flask_sqlalchemy import SQLAlchemy
 from logbook import Logger
@@ -55,7 +57,6 @@ def api_root():
            "\n Read the docs to understand how to integrate with your github pages blog."
     return render_template('front.html', content=body, title="pyStatikMan API", version=version)
 
-
 @app.route("/version", methods=['GET', 'OPTIONS'])
 def api_latest_version():
     """
@@ -65,16 +66,33 @@ def api_latest_version():
 
 ##
 #   for some reason the redirect from the controller response
-#   is concatenated with our domain.
-#   these 2 routes are a quick and dirty fix to force the
+#   is concatenated to our domain.
+#   these 2 routes are a quick fix to force the
 #   redirect back to github pages.
+#   for security reasons we ignore the pages repo that comes with the request
+#   and instead inject the name from our configuration.
 ##
-@app.route('/zubeax.github.io/comment-success', methods=['GET'])
-def post_success():
-    return redirect('https://zubeax.github.io/comment-success', code=statuscodes.HTTP_REDIRECT)
 
-@app.route('/zubeax.github.io/comment-error', methods=['GET'])
-def post_error():
-    return redirect('https://zubeax.github.io/comment-error', code=statuscodes.HTTP_REDIRECT)
+@app.route('/<pagesrepo>/comment-success', methods=['GET'])
+def post_success(pagesrepo):
+    configuredpagesrepo = app.config['GITHUB_PAGES_REPO']
+
+    if pagesrepo != configuredpagesrepo:
+        with log_to_file:
+            log.info("Pages repo from request != configured: " + pagesrepo+"/"+configuredpagesrepo)
+
+    redirecturl = 'https://{pagesrepo}/comment-success'.format(pagesrepo=configuredpagesrepo)
+    return redirect(redirecturl, code=statuscodes.HTTP_REDIRECT)
+
+@app.route('/<pagesrepo>/comment-error', methods=['GET'])
+def post_error(pagesrepo):
+    configuredpagesrepo = app.config['GITHUB_PAGES_REPO']
+
+    if pagesrepo != configuredpagesrepo:
+        with log_to_file:
+            log.info("Pages repo from request != configured: " + pagesrepo+"/"+configuredpagesrepo)
+
+    redirecturl = 'https://{pagesrepo}/comment-error'.format(pagesrepo=configuredpagesrepo)
+    return redirect(redirecturl, code=statuscodes.HTTP_REDIRECT)
 
 ## EOF Routes.

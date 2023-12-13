@@ -47,7 +47,7 @@ def get_comment(version, comment_id):
 @crossdomain
 def delete_comment(version, comment_id):
     """
-    Controller for API Function that gets a comment by ID
+    Controller for API Function that deletes a comment by ID
     @param comment_id: comment id
     @return: Response and HTTP code
     """
@@ -115,7 +115,7 @@ def get_all_comments(version):
 @crossdomain
 def insert_comment(version):
     """
-    Controller for API Function that inserts new comments in the database
+    Controller for API Function that inserts new comments into the database
     and commits to remote repository
 
     @return: Response and HTTP code
