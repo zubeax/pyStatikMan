@@ -73,7 +73,7 @@ def api_latest_version():
 #   and instead inject the name from our configuration.
 ##
 
-@app.route('/<pagesrepo>/comment-success', methods=['GET'])
+@app.route('/<string:pagesrepo>/comment-success', methods=['GET'])
 def post_success(pagesrepo):
     configuredpagesrepo = app.config['GITHUB_PAGES_REPO']
 
@@ -84,7 +84,7 @@ def post_success(pagesrepo):
     redirecturl = 'https://{pagesrepo}/comment-success'.format(pagesrepo=configuredpagesrepo)
     return redirect(redirecturl, code=statuscodes.HTTP_REDIRECT)
 
-@app.route('/<pagesrepo>/comment-error', methods=['GET'])
+@app.route('/<string:pagesrepo>/comment-error', methods=['GET'])
 def post_error(pagesrepo):
     configuredpagesrepo = app.config['GITHUB_PAGES_REPO']
 
