@@ -75,24 +75,24 @@ def api_latest_version():
 
 @app.route('/<string:pagesrepo>/comment-success', methods=['GET'])
 def post_success(pagesrepo):
-    configuredpagesrepo = app.config['GITHUB_PAGES_REPO']
+    configuredpagesurl = app.config['GITHUB_PAGES_URL']
 
-    if pagesrepo != configuredpagesrepo:
+    if pagesrepo != configuredpagesurl:
         with log_to_file:
-            log.info("Pages repo from request != configured: " + pagesrepo+"/"+configuredpagesrepo)
+            log.info("Pages repo from request != configured: " + pagesrepo+"/"+configuredpagesurl)
 
-    redirecturl = 'https://{pagesrepo}/comment-success'.format(pagesrepo=configuredpagesrepo)
+    redirecturl = '{pagesrepo}/comment-success'.format(pagesrepo=configuredpagesurl)
     return redirect(redirecturl, code=statuscodes.HTTP_REDIRECT)
 
 @app.route('/<string:pagesrepo>/comment-error', methods=['GET'])
 def post_error(pagesrepo):
-    configuredpagesrepo = app.config['GITHUB_PAGES_REPO']
+    configuredpagesurl = app.config['GITHUB_PAGES_URL']
 
-    if pagesrepo != configuredpagesrepo:
+    if pagesrepo != configuredpagesurl:
         with log_to_file:
-            log.info("Pages repo from request != configured: " + pagesrepo+"/"+configuredpagesrepo)
+            log.info("Pages repo from request != configured: " + pagesrepo+"/"+configuredpagesurl)
 
-    redirecturl = 'https://{pagesrepo}/comment-error'.format(pagesrepo=configuredpagesrepo)
+    redirecturl = '{pagesurl}/comment-error'.format(pagesrepo=configuredpagesurl)
     return redirect(redirecturl, code=statuscodes.HTTP_REDIRECT)
 
 ## EOF Routes.

@@ -11,7 +11,8 @@ class DefaultConfig(object):
     LOG_LEVEL = 'WARNING'
     LOG_DIR = 'logs/'
     SQLALCHEMY_DATABASE_URI = "sqlite:///comment.db"
-    GITHUB_PAGES_URL = "https://zubeax.github.io"
+    GITHUB_PAGES_URL = "https://blog.smooth-sailing.net"
+    GITHUB_PAGES_REPO = "zubeax.github.io"
     GITHUB_ACCOUNT = "zubeax"
     GITHUB_BOT_ACCOUNT = "zubeax-bot"
     GITHUB_BOT_TOKENFILE  = "./token"
@@ -21,8 +22,6 @@ class DefaultConfig(object):
 
     POST_MAX_SIZE  = 2048                           # let's start with 2k
     POST_MAX_COMMENTS  = 50                         # that's 100k. Should be enough
-
-    GITHUB_PAGES_REPO = re.sub(r'https?://', '', GITHUB_PAGES_URL)
 
 class Development(DefaultConfig):
     """

@@ -3,7 +3,7 @@ __author__ = 'Axel Zuber'
 import os
 import re
 from git import Repo
-from pystatikman import app
+from pystatikman import app, log
 
 tokenfile = app.config['GITHUB_BOT_TOKENFILE']
 with open(tokenfile) as f:
@@ -24,8 +24,10 @@ remoteurl       = remotepattern.format(username=username, token=token, account=a
 #   TODO:   find out if we can commit with a copy the head
 ##
 if os.path.isdir(full_local_path+"/.git"):
+    log.info("gitclient::init - pull repo")
     repo = Repo(full_local_path)
     o = repo.remotes.origin
     o.pull()
+    log.info("gitclient::init - done")
 else:
     repo = Repo.clone_from(remoteurl, full_local_path)
