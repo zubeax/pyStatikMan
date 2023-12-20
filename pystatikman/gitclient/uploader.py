@@ -7,14 +7,17 @@ import yaml
 from git import Repo
 from pystatikman import app
 
+
 def commit_changes(repo, commentfile, message):
     index = repo.index
     index.add([commentfile])
     index.commit(message)
 
+
 def push_changes(repo):
     origin = repo.remote(name="origin")
     origin.push()
+
 
 def commit_comment_to_repo(comment):
     """
@@ -41,11 +44,11 @@ def commit_comment_to_repo(comment):
     f = open(commentfile, "w")
 
     commentdict = {
-        "_id" : comment_uuid,
-        "parent_id" : comment.parent,
-        "name" : comment.author,
-        "message" : comment.commenttext.strip(),
-        "date" : epoch_time
+        "_id": comment_uuid,
+        "parent_id": comment.parent,
+        "name": comment.author,
+        "message": comment.commenttext.strip(),
+        "date": epoch_time
     }
 
     yaml.dump(commentdict, f, allow_unicode=True)

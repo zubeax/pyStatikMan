@@ -1,6 +1,6 @@
 # A python-based drop-in replacement for Staticman
 
-While starting my own blog on my [journey from mainframe to public cloud](https://zubeax.github.io/)
+While starting my own blog on my [journey from mainframe to public cloud](https://blog.smooth-sailing.net/)
 i ran into issues when i tried to deploy and configure [Staticman](https://staticman.net/) on Heroku.
 <br/>
 It is quite possible that the root cause of those problem is sitting in front of the screen, but after not making

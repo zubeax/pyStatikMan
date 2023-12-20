@@ -1,13 +1,14 @@
 __author__ = 'Axel Zuber'
 
 import math
+
 from flask import Blueprint, jsonify, request, redirect
 from sqlalchemy.exc import IntegrityError
 
 from pystatikman import app, log, log_to_file
 from pystatikman.api import responses, errors, statuscodes
-from pystatikman.api.comments.models import Comment, db, CommentSchema
 from pystatikman.api.comments.decorators import require_origin, sanitize_request
+from pystatikman.api.comments.models import Comment, db, CommentSchema
 from pystatikman.gitclient.uploader import commit_comment_to_repo
 from pystatikman.utils.decorators import crossdomain
 
