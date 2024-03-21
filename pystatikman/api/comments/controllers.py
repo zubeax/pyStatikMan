@@ -131,7 +131,8 @@ def insert_comment(version):
     if mimetype == None:
         return redirect(origin, code=statuscodes.HTTP_REDIRECT)
     elif mimetype.casefold() == "application/json":
-        content = request.get_json(silent=True)
+#        content = request.get_json(silent=True)
+        content = request.get_json(force=True, silent=False)
         try:
             slug = content['slug']
             parent = None

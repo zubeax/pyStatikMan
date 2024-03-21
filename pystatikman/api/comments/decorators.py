@@ -67,6 +67,7 @@ def sanitize_request(func):
             formdata = request.form
 
         commenttext = None
+        slug = None
         if formdata != None:
             try:
                 commenttext = formdata['fields[message]']

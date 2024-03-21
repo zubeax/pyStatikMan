@@ -6,16 +6,27 @@ Created database.
 
 ### submit a CREATE rest request
 
-curl -v --cacert ./tls/blog-cacert.crt -X POST -H "Content-Type: application/json" -H "origin: from-home" \
-       -d '{    "slug": "the-journey-starts", \
-                "author": "Ghostdog", \
-                "email": "ghostdog@roof.top", \
-                "commenttext": "From curl!" }' \
-    https://kippel.myddns.me:5000/api/v1.0/comments/
+curl -s -X POST -H "Content-Type: application/x-www-form-urlencoded" -H "origin: from-home" \
+        -d "options[slug]=the-journey-starts" \
+        -d "fields[name]=Ghostdog@kippel.de" \
+        -d "fields[parent_id]=4711" \
+        -d "fields[message]='From curl'" \
+        -d "options[redirect]=http://redirect-on-success" \
+        -d "options[redirectError]=http://redirect-on-error" \
+        http://localhost:5000/api/v1.0/comments/
+
+curl -s -X POST -H "origin: from-home" \
+    -H "Content-Type: application/json" \
+    -d '{   "author": "Axel", \
+            "email": "axel@kippel.de", \
+            "originip": "127.0.0.11", \
+            "origindomain": "kippel.de", \
+            "commenttext": "Hello world!" }' \
+    http://localhost:5000/api/v1.0/comments/
 
 ### submit a GET rest request for a single comment
 
-$ curl -s -X GET -H 'Accepts: application/json' http://192.168.100.243:5000/api/v1.0/comments/1
+$ curl -s -X GET -H 'Accepts: application/json' -H 'origin: from-home' http://localhost:5000/api/v1.0/comments/1
 {
   "data": {
     "comment": {
@@ -30,10 +41,9 @@ $ curl -s -X GET -H 'Accepts: application/json' http://192.168.100.243:5000/api/
   "status": "success"
 }
 
-
 ### submit a GET rest request for all comments
 
-$ curl -s -X GET -H 'Accepts: application/json' http://192.168.100.243:5000/api/v1.0/comments/
+$ curl -s -X GET -H 'Accepts: application/json' -H 'origin: from-home' http://localhost:5000/api/v1.0/comments/
 {
   "data": {
     "comments": [
@@ -60,7 +70,7 @@ $ curl -s -X GET -H 'Accepts: application/json' http://192.168.100.243:5000/api/
 
 ### submit a DELETE rest request
 
-$ curl -s -X DELETE  http://192.168.100.243:5000/api/v1.0/comments/2
+$ curl -s -X DELETE -H 'origin: from-home' http://localhost:5000/api/v1.0/comments/2
 {
   "data": {
     "comment": {
