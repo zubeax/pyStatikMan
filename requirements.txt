@@ -8,3 +8,4 @@ logbook
 marshmallow
 nose
 pyopenssl
+PyYAML

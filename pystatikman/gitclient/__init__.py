@@ -21,7 +21,8 @@ remoteurl       = remotepattern.format(username=username, token=token, account=a
 
 ##
 #   clone a local copy of the github pages repository.
-#   TODO:   find out if we can commit with a copy the head
+#   TODO:   find out if we can commit with a copy the head,
+#           i.e. without having to clone the entire repo first.
 ##
 if os.path.isdir(full_local_path+"/.git"):
     log.info("gitclient::init - pull repo")

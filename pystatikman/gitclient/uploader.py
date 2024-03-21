@@ -27,6 +27,9 @@ def commit_comment_to_repo(comment):
     """
     slug = comment.slug
 
+    comment_uuid = str(uuid.uuid4())
+    epoch_time = str(int(time.time()))
+
     comment_local_path = app.config['GITHUB_REPO_LOCAL']
     comment_local_path = comment_local_path + "/" + app.config['GITHUB_COMMENT_DIRECTORY']
     comment_local_path = comment_local_path + "/" + slug
@@ -35,9 +38,6 @@ def commit_comment_to_repo(comment):
 
     # Sanitize the path
     comment_local_path = os.path.abspath(comment_local_path)
-
-    comment_uuid = str(uuid.uuid4())
-    epoch_time = str(int(time.time()))
 
     commentfile = comment_local_path + "/" + "entry" + epoch_time + ".yml"
 

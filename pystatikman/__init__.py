@@ -30,7 +30,7 @@ app.config.from_object(API_CONFIG)
 
 full_local_path = os.path.abspath(app.config['GITHUB_REPO_LOCAL'])
 if not os.path.isdir(full_local_path):
-    raise RuntimeError("repo directory $comment_local_path not found")
+    raise RuntimeError("repo directory "+full_local_path+" not found")
 
 # Setup SQLAlchemy
 db = SQLAlchemy(app)
