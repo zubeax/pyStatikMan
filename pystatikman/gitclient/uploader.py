@@ -13,11 +13,9 @@ def commit_changes(repo, commentfile, message):
     index.add([commentfile])
     index.commit(message)
 
-
 def push_changes(repo):
     origin = repo.remote(name="origin")
     origin.push()
-
 
 def commit_comment_to_repo(comment):
     """

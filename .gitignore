@@ -108,7 +108,7 @@ ENV/
 token
 **/tls/blog*
 
-repo
+/repo/
 **/instance
 
 dopush.sh
