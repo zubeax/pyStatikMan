@@ -191,4 +191,5 @@ def insert_comment(version):
 
     # Unsupported Versions
     else:
+        blogredirectError = app.config['GITHUB_PAGES_URL']+ "/comment-error.html"
         return redirect(blogredirectError, code=statuscodes.HTTP_REDIRECT)

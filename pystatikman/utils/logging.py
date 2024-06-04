@@ -1,14 +1,6 @@
-"""
- * Author: Lukasz Jachym
- * Date: 6/28/13
- * Time: 3:49 PM
- *
- * This work is licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License.
- * To view a copy of this license, visit http://creativecommons.org/licenses/by-nc-sa/3.0/.
-"""
+__author__ = 'Axel Zuber'
 
 import logbook
-
 
 class LoggingSetup(object):
     """

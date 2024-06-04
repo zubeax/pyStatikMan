@@ -2,7 +2,6 @@ __author__ = 'Axel Zuber'
 
 from pystatikman import db
 
-
 class BaseModel(db.Model):
     """
     a base model for other database tables to inherit

@@ -9,5 +9,5 @@ setup(
     author='Axel Zuber',
     author_email='zubeax@github.com',
     description='Commit Comments on Blog Posts to Github Pages Repository',
-    requires=['flask', 'jira-python', 'pyodbc', 'flask-restful', 'flask-httpauth', 'httplib2']
+    requires=['flask', 'flask-restful', 'flask-httpauth', 'httplib2']
 )

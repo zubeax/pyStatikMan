@@ -91,6 +91,10 @@ cd pyStatikMan
 gunicorn --bind=0.0.0.0 --timeout 600 --log-level debug pystatikman:app
 ```
 
+## Configuring for HTTPS
+
+After provisioning my own domain (smooth-sailing.net) i was able to use Let's Encrypt's [Certbot CLI](https://certbot.eff.org/pages/about)
+to create proper certificates. They are referred to in the keyfile/certfile of the gunicorn start command further down.
 
 ## Starting as systemd service
 
@@ -105,7 +109,8 @@ After=network.target
 [Service]
 Environment=FLASK_CONFIG=production
 User=root
-ExecStart=gunicorn --bind=0.0.0.0:5000 --timeout=600 --log-level=debug --ssl-version=TLSv1_2  --keyfile=./tls/blog-nopass.key --certfile=./tls/blog-server-cert.crt pystatikman:app
+ExecStart=gunicorn --bind=0.0.0.0:5000 --timeout=600 --log-level=debug --ssl-version=TLSv1_2  --keyfile=./tls/privkey.pem --certfile=./tls/cert.pem pystatikman:app
+
 WorkingDirectory=/opt/pyStatikMan/
 Restart=on-failure
 RestartSec=30

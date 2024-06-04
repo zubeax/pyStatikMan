@@ -32,9 +32,11 @@ if options.run is True:
     debug = app.config['DEBUG']
 
     context = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)
-    context.load_cert_chain('./tls/blog-server-cert.crt', './tls/blog-nopass.key')
+    context.load_cert_chain('./tls/cert.pem', './tls/privkey.pem')
     context.verify_mode = ssl.CERT_OPTIONAL
-    context.load_verify_locations('./tls/github-pages-truststore.crt')
+    context.load_verify_locations('./tls/truststore.pem')
+    app.run(debug=debug, host="0.0.0.0", ssl_context=context)
+
     app.run(debug=debug, host="0.0.0.0", ssl_context=context)
 
     print("Stopped  the Development HTTP server.")
