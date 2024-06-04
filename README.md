@@ -94,7 +94,7 @@ gunicorn --bind=0.0.0.0 --timeout 600 --log-level debug pystatikman:app
 ## Configuring for HTTPS
 
 After provisioning my own domain (smooth-sailing.net) i was able to use Let's Encrypt's [Certbot CLI](https://certbot.eff.org/pages/about)
-to create proper certificates. They are referred to in the keyfile/certfile of the gunicorn start command further down.
+to create proper certificates. They are referred to in the keyfile/certfile parameters of the gunicorn start command further down.
 
 ## Starting as systemd service
 
