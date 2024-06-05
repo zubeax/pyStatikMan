@@ -1,10 +1,8 @@
 __author__ = 'Axel Zuber'
 
-import re
-
 class DefaultConfig(object):
     """
-    Default Config (Is used when PYSTATIKMANCONFIG environment variable is not set)
+    Default Config (Used unless PYSTATIKMANCONFIG environment variable is set)
     """
     APP_NAME = 'pystatikman'
     DEBUG = False
@@ -22,6 +20,7 @@ class DefaultConfig(object):
 
     POST_MAX_SIZE  = 2048                           # let's start with 2k
     POST_MAX_COMMENTS  = 50                         # that's 100k. Should be enough
+
 
 class Development(DefaultConfig):
     """

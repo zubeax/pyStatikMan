@@ -11,9 +11,9 @@ curl -s -X POST -H "Content-Type: application/x-www-form-urlencoded" -H "origin:
         -d "fields[name]=Ghostdog@kippel.de" \
         -d "fields[parent_id]=4711" \
         -d "fields[message]='From curl'" \
-        -d "options[redirect]=http://redirect-on-success" \
-        -d "options[redirectError]=http://redirect-on-error" \
-        http://localhost:5000/api/v1.0/comments/
+        -d "options[redirect]=https://redirect-on-success" \
+        -d "options[redirectError]=https://redirect-on-error" \
+        https://localhost:5000/api/v1.0/comments/
 
 curl -s -X POST -H "origin: from-home" \
     -H "Content-Type: application/json" \
@@ -22,11 +22,11 @@ curl -s -X POST -H "origin: from-home" \
             "originip": "127.0.0.11", \
             "origindomain": "kippel.de", \
             "commenttext": "Hello world!" }' \
-    http://localhost:5000/api/v1.0/comments/
+    https://localhost:5000/api/v1.0/comments/
 
 ### submit a GET rest request for a single comment
 
-$ curl -s -X GET -H 'Accepts: application/json' -H 'origin: from-home' http://localhost:5000/api/v1.0/comments/1
+$ curl -s -X GET -H 'Accepts: application/json' -H 'origin: from-home' https://localhost:5000/api/v1.0/comments/1
 {
   "data": {
     "comment": {
@@ -43,7 +43,7 @@ $ curl -s -X GET -H 'Accepts: application/json' -H 'origin: from-home' http://lo
 
 ### submit a GET rest request for all comments
 
-$ curl -s -X GET -H 'Accepts: application/json' -H 'origin: from-home' http://localhost:5000/api/v1.0/comments/
+$ curl -s -X GET -H 'Accepts: application/json' -H 'origin: from-home' https://localhost:5000/api/v1.0/comments/
 {
   "data": {
     "comments": [
@@ -70,7 +70,7 @@ $ curl -s -X GET -H 'Accepts: application/json' -H 'origin: from-home' http://lo
 
 ### submit a DELETE rest request
 
-$ curl -s -X DELETE -H 'origin: from-home' http://localhost:5000/api/v1.0/comments/2
+$ curl -s -X DELETE -H 'origin: from-home' https://localhost:5000/api/v1.0/comments/2
 {
   "data": {
     "comment": {

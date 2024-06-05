@@ -77,7 +77,7 @@ def post_success(pagesrepo):
 
     if pagesrepo != configuredpagesurl:
         with log_to_file:
-            log.info("Comment-Success - Pages repo from request != configured: " + pagesrepo+"/"+configuredpagesurl)
+            log.info("Comment-Success - Pages repo from request != configured: " + pagesrepo+" vs. "+configuredpagesurl)
 
     redirecturl = '{pagesrepo}/comment-success'.format(pagesrepo=configuredpagesurl)
     return redirect(redirecturl, code=statuscodes.HTTP_REDIRECT)
@@ -88,7 +88,7 @@ def post_error(pagesrepo):
 
     if pagesrepo != configuredpagesurl:
         with log_to_file:
-            log.info("Comment-Error - Pages repo from request != configured: " + pagesrepo+"/"+configuredpagesurl)
+            log.info("Comment-Error - Pages repo from request != configured: " + pagesrepo+" vs. "+configuredpagesurl)
 
     redirecturl = '{pagesurl}/comment-error'.format(pagesurl=configuredpagesurl)
     return redirect(redirecturl, code=statuscodes.HTTP_REDIRECT)
