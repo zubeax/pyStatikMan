@@ -7,7 +7,7 @@ Created database.
 ### submit a CREATE rest request
 
 curl -s -X POST -H "Content-Type: application/x-www-form-urlencoded" -H "origin: from-home" \
-        -d "options[slug]=the-journey-starts" \
+        -d "options[slug]=the-journey-begins" \
         -d "fields[name]=Ghostdog@kippel.de" \
         -d "fields[parent_id]=4711" \
         -d "fields[message]='From curl'" \

@@ -22,16 +22,21 @@ class DefaultConfig(object):
     POST_MAX_COMMENTS  = 50                         # that's 100k. Should be enough
 
 
-class Development(DefaultConfig):
+class DevelopmentConfig(DefaultConfig):
     """
     Config class for development.
     """
     DEBUG = True
-    LOG_LEVEL = 'INFO'
-    SQLALCHEMY_DATABASE_URI = "sqlite:///comment_test.db"
+    LOG_LEVEL = 'WARNING'
+    LOG_DIR = 'logs/'
+    GITHUB_PAGES_REPO = "zubeax.gitea.io"
+    GITHUB_ACCOUNT = "axel"
+    GITHUB_BOT_ACCOUNT = "axel"
+    GITHUB_BOT_TOKENFILE  = "./token4gitea"
+    GITHUB_REPO_REMOTE = "http://{username}:{token}@git.k3s.kippel.de/{account}/{pagesrepo}"
 
 
-class UnitTesting(DefaultConfig):
+class UnitTestingConfig(DefaultConfig):
     """
     Config class for unittests
     """

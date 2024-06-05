@@ -6,7 +6,7 @@ from flask import request, abort
 
 from pystatikman import app, log, log_to_file
 
-def require_origin(func, allow_localhost=None):
+def require_origin(func):
     """
     @param func: flask function
     @return: decorator, return the wrapped function or abort json object.
@@ -25,25 +25,14 @@ def require_origin(func, allow_localhost=None):
     @wraps(func)
     def wrapper(*args, **kwargs):
 
-        origin = request.origin
-        if origin != None:
-            origin = origin.casefold()
+        origin = RequestOrigin(request,app)
 
-        originexpected = app.config['GITHUB_PAGES_URL'].casefold()
-        remote_addr = request.remote_addr
-
-        fromcurl   = (origin == 'from-home' and (remote_addr == '84.166.222.154' or remote_addr == '192.168.100.243'))
-        fromubuntu = (origin == 'http://ubuntu22.kippel.de:4000')
-        fromlocalhost = (origin == None and allow_localhost and remote_addr == '127.0.0.1')
-        if fromcurl or fromubuntu or fromlocalhost:
+        if origin.accepted():
             return func(*args, **kwargs)
-
-        if origin == None or origin != originexpected:
+        else:
             with log_to_file:
                 log.warning("Unauthorized address trying to use API: " + remote_addr)
             abort(401)
-        else:
-            return func(*args, **kwargs)
 
     return wrapper
 
@@ -82,12 +71,11 @@ def sanitize_request(func):
             comment_local_path = comment_local_path + "/" + slug
 
             if os.path.isdir(comment_local_path):
-                actual_comments = len([name for name in os.listdir(comment_local_path) if os.path.isfile(name)])
+                actual_comments = len([name for name in os.listdir(comment_local_path) if os.path.isfile(comment_local_path+"/"+name)])
                 if actual_comments > maxcomments:
                     with log_to_file:
                         log.warning("Max number of comments exceeded: " + slug)
                     abort(401)
-
 
         # Prevent excessively large comments
 
@@ -100,3 +88,30 @@ def sanitize_request(func):
         return func(*args, **kwargs)
 
     return wrapper
+
+
+class RequestOrigin:
+    """" wrapper around origin acceptance rules"""
+    origin = ""
+    originexpected = ""
+    remote_addr = ""
+
+    def __init__(self, request, app ):
+        self.origin = request.origin
+        if self.origin != None:
+            self.origin = self.origin.casefold()
+
+        self.originexpected = app.config['GITHUB_PAGES_URL'].casefold()
+        self.remote_addr = request.remote_addr
+
+    def accepted(self):
+        fromcurl   = (self.origin == 'from-home' and (self.remote_addr == '192.168.100.243') or self.remote_addr == '127.0.0.1')
+        fromubuntu = (self.origin == 'http://ubuntu22.kippel.de:4000')
+        fromlocalhost = (self.origin == None and self.remote_addr == '127.0.0.1')
+
+        result = fromcurl or fromubuntu or fromlocalhost
+
+        if not result:
+            result = (self.origin == self.originexpected)
+
+        return result
