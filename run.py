@@ -1,7 +1,6 @@
 __author__ = 'Axel Zuber'
 
 import code
-import os
 import ssl
 from optparse import OptionParser, OptionGroup
 from pystatikman import app, db
@@ -32,9 +31,9 @@ if options.run is True:
     debug = app.config['DEBUG']
 
     context = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)
-    context.load_cert_chain('./tls/cert.pem', './tls/privkey.pem')
+    context.load_cert_chain('./tls/blog-server-cert.crt', './tls/blog-nopass.key')
     context.verify_mode = ssl.CERT_OPTIONAL
-    context.load_verify_locations('./tls/truststore.pem')
+    context.load_verify_locations('./tls/blog-cacert.crt')
     app.run(debug=debug, host="0.0.0.0", ssl_context=context)
 
     app.run(debug=debug, host="0.0.0.0", ssl_context=context)

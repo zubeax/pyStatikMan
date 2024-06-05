@@ -1,12 +1,10 @@
 # coding=utf-8
+__author__ = 'Axel Zuber'
 __version__ = 1.0
-
 version = __version__
 
 import os
-import re
-from flask import Flask, render_template, redirect, request
-# from flask.ext.sqlalchemy import SQLAlchemy
+from flask import Flask, render_template, redirect
 from flask_sqlalchemy import SQLAlchemy
 from logbook import Logger
 
@@ -79,7 +77,7 @@ def post_success(pagesrepo):
 
     if pagesrepo != configuredpagesurl:
         with log_to_file:
-            log.info("Pages repo from request != configured: " + pagesrepo+"/"+configuredpagesurl)
+            log.info("Comment-Success - Pages repo from request != configured: " + pagesrepo+"/"+configuredpagesurl)
 
     redirecturl = '{pagesrepo}/comment-success'.format(pagesrepo=configuredpagesurl)
     return redirect(redirecturl, code=statuscodes.HTTP_REDIRECT)
@@ -90,9 +88,9 @@ def post_error(pagesrepo):
 
     if pagesrepo != configuredpagesurl:
         with log_to_file:
-            log.info("Pages repo from request != configured: " + pagesrepo+"/"+configuredpagesurl)
+            log.info("Comment-Error - Pages repo from request != configured: " + pagesrepo+"/"+configuredpagesurl)
 
-    redirecturl = '{pagesurl}/comment-error'.format(pagesrepo=configuredpagesurl)
+    redirecturl = '{pagesurl}/comment-error'.format(pagesurl=configuredpagesurl)
     return redirect(redirecturl, code=statuscodes.HTTP_REDIRECT)
 
 ## EOF Routes.

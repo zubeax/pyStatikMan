@@ -4,8 +4,7 @@ import os, os.path
 from functools import wraps
 from flask import request, abort
 
-from pystatikman import app
-from pystatikman import log, log_to_file
+from pystatikman import app, log, log_to_file
 
 def require_origin(func, allow_localhost=None):
     """

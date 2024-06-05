@@ -17,7 +17,7 @@ Clone this repository and install the required packages into a .venv environment
 
 ```bash
 python3 -m venv <venv-directory>
-. <venv-directory>/activate
+. <venv-directory>/bin/activate
 pip3 install -r requirements.txt
 ```
 

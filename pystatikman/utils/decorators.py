@@ -2,10 +2,9 @@ __author__ = 'Axel Zuber'
 
 from functools import wraps
 
-
 def crossdomain(func, allow_origin=None, allow_headers=None, max_age=None):
     """
-    Enable CORS.
+    Enable CORS by adding the required headers to an http response.
     @param func: wrapped function
     @param allow_origin: specify origin
     @param allow_headers: allow headers
