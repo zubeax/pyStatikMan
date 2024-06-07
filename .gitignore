@@ -105,6 +105,8 @@ celerybeat-schedule
 ENV/
 
 token
+token4gitea
+
 **/tls/blog*
 
 /logs/
