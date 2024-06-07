@@ -109,7 +109,7 @@ After=network.target
 [Service]
 Environment=FLASK_CONFIG=production
 User=root
-ExecStart=gunicorn --bind=0.0.0.0:5000 --timeout=600 --log-level=debug --ssl-version=TLSv1_2  --keyfile=./tls/privkey.pem --certfile=./tls/cert.pem pystatikman:app
+ExecStart=gunicorn --bind=0.0.0.0:5000 --timeout=600 --log-level=debug --ssl-version=TLSv1_3  --keyfile=./tls/privkey.pem --certfile=./tls/cert.pem pystatikman:app
 
 WorkingDirectory=/opt/pyStatikMan/
 Restart=on-failure
