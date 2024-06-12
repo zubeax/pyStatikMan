@@ -7,8 +7,8 @@ It is quite possible that the root cause of those problem is sitting in front of
 any progress for 2 days i gave up and implemented my own version.
 
 Like Staticman, the application exposes a simple REST API that accepts POST requests from github pages,
-extracts the payload and then commits a comment file to the configured github repository.
-
+extracts the payload and then commits a comment file to the configured github repository.<br>
+I deployed the service on a Raspberry Pi managed by [systemd](#starting-as-systemd-service). 
 
 
 ## Installation
