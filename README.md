@@ -101,7 +101,7 @@ to create proper certificates. They are referred to in the keyfile/certfile para
 Define a service control file
 
 ```bash
-#file: /etc/systemd/system/pystatikman.service
+cat > /etc/systemd/system/pystatikman.service << EOT
 [Unit]
 Description=pyStatikMan
 After=network.target
@@ -118,6 +118,7 @@ StartLimitIntervalSec=0
 
 [Install]
 WantedBy=multi-user.target
+EOT
 ```
 
 then enable and start the service :
