@@ -94,14 +94,14 @@ gunicorn --bind=0.0.0.0 --timeout 600 --log-level debug pystatikman:app
 ## Configuring for HTTPS
 
 After provisioning my own domain (smooth-sailing.net) i was able to use Let's Encrypt's [Certbot CLI](https://certbot.eff.org/pages/about)
-to create proper certificates. They are referred to in the keyfile/certfile parameters of the gunicorn start command further down.
+to create proper certificates. They are referred to in the keyfile/certfile parameters of the gunicorn start command below.
 
 ## Starting as systemd service
 
 Define a service control file
 
 ```bash
-cat > /etc/systemd/system/pystatikman.service << EOT
+#file: /etc/systemd/system/pystatikman.service
 [Unit]
 Description=pyStatikMan
 After=network.target
@@ -118,7 +118,6 @@ StartLimitIntervalSec=0
 
 [Install]
 WantedBy=multi-user.target
-EOT
 ```
 
 then enable and start the service :
