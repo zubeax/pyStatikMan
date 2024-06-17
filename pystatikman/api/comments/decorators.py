@@ -3,6 +3,7 @@ __author__ = 'Axel Zuber'
 import os, os.path
 from functools import wraps
 from flask import request, abort
+from better_profanity import profanity
 
 from pystatikman import app, log, log_to_file
 
@@ -31,7 +32,7 @@ def require_origin(func):
             return func(*args, **kwargs)
         else:
             with log_to_file:
-                log.warning("Unauthorized address trying to use API: " + remote_addr)
+                log.warning("Unauthorized address trying to use API: " + request.remote_addr)
             abort(401)
 
     return wrapper
@@ -83,7 +84,15 @@ def sanitize_request(func):
             if len(commenttext) > maxblogsize:
                 with log_to_file:
                     log.warning("Max blog size exceeded: " + str(len(maxblogsize)))
-                abort(401)
+                abort(406)
+
+        # do censoring
+        censored = profanity.censor(commenttext)
+
+        if commenttext != censored:
+            with log_to_file:
+                log.warning("Rejected due to profanity: " + censored)
+            abort(406)
 
         return func(*args, **kwargs)
 
@@ -105,7 +114,7 @@ class RequestOrigin:
         self.remote_addr = request.remote_addr
 
     def accepted(self):
-        fromcurl   = (self.origin == 'from-home' and (self.remote_addr == '192.168.100.243') or self.remote_addr == '127.0.0.1')
+        fromcurl   = (self.origin == 'from-home' and (self.remote_addr == '127.0.0.1') or (self.remote_addr == '192.168.100.243'))
         fromubuntu = (self.origin == 'http://ubuntu22.kippel.de:4000')
         fromlocalhost = (self.origin == None and self.remote_addr == '127.0.0.1')
 

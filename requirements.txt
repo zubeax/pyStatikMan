@@ -9,3 +9,4 @@ marshmallow
 nose
 pyopenssl
 PyYAML
+better_profanity
